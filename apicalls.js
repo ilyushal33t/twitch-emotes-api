@@ -1,9 +1,8 @@
 require('dotenv').config()
-const request = require('request')
-const fs = require('fs');
+
 const fetch = require('node-fetch');
 
-var get = {
+const get = {
     json: async function (url, query = void 0, ops = void 0) {
         try {
             if (typeof url === 'string') {
@@ -72,13 +71,12 @@ class ApiCalls {
                 'Authorization': 'Bearer ' + process.env.APP_TOKEN,
             }
         },
-            url = this.url_ch_info + id;
 
-        let data = get.json(
-            this.url_ch_info,
-            { broadcaster_id: id },
-            ops
-        );
+            data = get.json(
+                this.url_ch_info,
+                { broadcaster_id: id },
+                ops
+            );
 
         return data.data;
     }
@@ -117,12 +115,11 @@ class ApiCalls {
                 'Authorization': 'Bearer ' + process.env.APP_TOKEN,
             },
             responseType: 'json',
-            url: url + id,
         }
 
         let data = await get.json(url + id, void 0, ops);
 
-        return data?.data || { error: `${data.error} ${data.status} ${data.message}` };
+        return data?.data ?? { error: `${data.error} ${data.status} ${data.message}` };
     }
 
     async getTwitchChannelBadges(id) {
@@ -134,7 +131,6 @@ class ApiCalls {
                 'Authorization': 'Bearer ' + process.env.APP_TOKEN,
             },
             responseType: 'json',
-            url: url + id,
         }
 
         let data = await get.json(
@@ -143,7 +139,7 @@ class ApiCalls {
             ops
         );
 
-        return data?.data || { error: `${data.error} ${data.status} ${data.message}` };
+        return data?.data ?? { error: `${data.error} ${data.status} ${data.message}` };
     }
 }
 

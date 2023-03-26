@@ -85,10 +85,11 @@ async function getGlobalEmotes() {
             ffz.push({ name, image, image1x })
         });
         (await $_.get7TVGlobal()).forEach(e => {
-            let { name, urls: image } = e;
+            let { name, urls: image, } = e;
             image = image[image.length - 1][1];
             let image1x = image.replace(/\/4x\.webp/, '/1x.webp');
-            _7tv.push({ name, image, image1x })
+            let zerowidth = e.visibility_simple.includes('ZERO_WIDTH')
+            _7tv.push({ name, image, image1x, zerowidth })
         });
         (await $_.getBTTVGlobal()).forEach(e => {
             let { code: name, id: image } = e;

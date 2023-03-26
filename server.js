@@ -63,8 +63,6 @@ app.get('/badges', async function (req, res) {
     res.end()
 });
 
-//TODO: 
-// app.get('/raw/:emotes')
 var i = 0;
 
 app.post('/up', function (req, res) {
