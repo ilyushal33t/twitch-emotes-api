@@ -1,1 +1,1 @@
-{"GET /user 200":7,"GET /useremotes 200":10,"GET /badges 200":1,"GET /full_user 304":5,"GET /full_user 200":3,"GET /stats/ 200":1,"GET unknown route 404":11,"GET /user 304":6,"GET /globalemotes 200":6,"GET /globalemotes 304":6,"GET /useremotes 304":7}
+{"GET /user 200":7,"GET /useremotes 200":12,"GET /badges 200":1,"GET /full_user 304":5,"GET /full_user 200":3,"GET /stats/ 200":1,"GET unknown route 404":12,"GET /user 304":6,"GET /globalemotes 200":6,"GET /globalemotes 304":6,"GET /useremotes 304":7}

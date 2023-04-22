@@ -58,7 +58,7 @@ async function getUserEmotes(id) {
             _7tv.push({ name, image, image1x, zerowidth })
         });
 
-        if (tw.length || _7tv.length || bttv.length || ffz.length || 1) {
+        if (!tw.length && !_7tv.length && !bttv.length && !ffz.length) {
             return {
                 error: 'No emotes found for this user.',
             }
