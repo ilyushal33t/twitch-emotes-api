@@ -4,6 +4,7 @@ const url = require('url');
 const fs = require('fs');
 const FILE_PATH = 'stats.json'
 
+
 async function getUser(name) {
     try {
 
@@ -21,7 +22,8 @@ async function getUserEmotes(id) {
     try {
         const tw = [], ffz = [], bttv = [], _7tv = [];
 
-        (await $_.getTwitchEmotes(id, 'channel')).forEach(e => {
+        (await $_.getTwitchEmotes(id, 'channel'))?.forEach(e => {
+            if (e.error) return;
             let { name, images: image, format } = e;
             image = (tmp = Object.values(image), tmp[tmp.length - 1]);
             let image1x = tmp[0];
@@ -56,6 +58,12 @@ async function getUserEmotes(id) {
             _7tv.push({ name, image, image1x, zerowidth })
         });
 
+        if (tw.length || _7tv.length || bttv.length || ffz.length || 1) {
+            return {
+                error: 'No emotes found for this user.',
+            }
+        }
+
         const data = {
             twitch: tw,
             _7tv: _7tv,
@@ -79,12 +87,14 @@ async function getGlobalEmotes() {
             tw.push({ name, image, image1x })
         });
         (await $_.getFFZGlobal()).forEach(e => {
+            // console.log(e)
             let { name, urls: image } = e;
             image = (tmp = Object.values(image), tmp[tmp.length - 1]);
             let image1x = tmp[0];
             ffz.push({ name, image, image1x })
         });
         (await $_.get7TVGlobal()).forEach(e => {
+            // console.log(e)
             let { name, urls: image, } = e;
             image = image[image.length - 1][1];
             let image1x = image.replace(/\/4x\.webp/, '/1x.webp');
@@ -92,6 +102,7 @@ async function getGlobalEmotes() {
             _7tv.push({ name, image, image1x, zerowidth })
         });
         (await $_.getBTTVGlobal()).forEach(e => {
+            // console.log(e)
             let { code: name, id: image } = e;
             image = `https://cdn.betterttv.net/emote/${image}/3x`;
             let image1x = image.replace(/\/3x/, '/1x');

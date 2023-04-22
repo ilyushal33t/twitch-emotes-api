@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { ApiCalls, get } = require(__dirname + "/apicalls.js");
-const funcs = require(__dirname + "/funcs.js");
-const { readStats, dumpStats, getRoute } = require(__dirname + "/funcs.js");
+const utils = require(__dirname + "/utils.js");
+const { readStats, dumpStats, getRoute } = require(__dirname + "/utils.js");
 const fetch = require("node-fetch");
 const cors = require("cors");
 const PORT = 8081;
@@ -16,7 +16,6 @@ app.use(bodyParser.json())
 app.use((req, res, next) => {
     res.on('finish', () => {
         const stats = readStats();
-        console.log(stats);
         console.log(`${req.method} ${getRoute(req)} ${res.statusCode}`)
         const event = `${req.method} ${getRoute(req)} ${res.statusCode}`
         stats[event] = stats[event] ? stats[event] + 1 : 1
@@ -32,21 +31,21 @@ app.get('/stats/', (req, res) => {
 
 app.get("/user", async function (req, res) {
     try {
-        const data = await funcs.getUser(req.query.name);
+        const data = await utils.getUser(req.query.name);
         res.json(data);
     } catch (e) { console.error(e); }
     res.end()
 });
 
 app.get("/useremotes", async function (req, res) {
-    const data = await funcs.getUserEmotes(req.query.id);
+    const data = await utils.getUserEmotes(req.query.id);
     res.json(data);
     res.end()
 });
 
 app.get("/globalemotes", async function (req, res) {
     try {
-        let data = await funcs.getGlobalEmotes();
+        let data = await utils.getGlobalEmotes();
         res.json(data);
     } catch (e) { console.error(e); }
     res.end()
@@ -67,7 +66,7 @@ var i = 0;
 
 app.post('/up', function (req, res) {
     try {
-        let url = funcs.fullUrl(req);
+        let url = utils.fullUrl(req);
         console.log('ping ' + i++);
         setTimeout(function () {
             fetch(url + '/up', { method: 'POST' }).catch(e => console.log(e));
@@ -78,9 +77,9 @@ app.post('/up', function (req, res) {
 
 app.get('/full_user', async function (req, res) {
     try {
-        // let url = funcs.fullUrl(req);
-        let user = await funcs.getUser(req.query.name);
-        let emotes = await funcs.getUserEmotes(user.id);
+        // let url = utils.fullUrl(req);
+        let user = await utils.getUser(req.query.name);
+        let emotes = await utils.getUserEmotes(user.id);
         let badges = await $_.getTwitchChannelBadges(user.id);
         let data = {
             user: user,

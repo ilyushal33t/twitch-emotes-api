@@ -119,7 +119,7 @@ class ApiCalls {
 
         let data = await get.json(url + id, void 0, ops);
 
-        return data?.data ?? { error: `${data.error} ${data.status} ${data.message}` };
+        return data?.data ?? [{ error: `${data.error} ${data.status} ${data.message}` }];
     }
 
     async getTwitchChannelBadges(id) {
